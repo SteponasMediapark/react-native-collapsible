@@ -18,6 +18,8 @@ export default class Collapsible extends Component {
     style: ViewPropTypes.style,
     onAnimationEnd: PropTypes.func,
     children: PropTypes.node,
+    animationInConfig: PropTypes.object,
+    animationOutConfig: PropTypes.object,
   }
 
   static defaultProps = {
@@ -28,6 +30,18 @@ export default class Collapsible extends Component {
     duration: 300,
     easing: 'easeOutCubic',
     onAnimationEnd: () => null,
+    animationInConfig: {
+      damping: 13,
+      mass: 1,
+      stiffness: 101.6,
+      overshootClamping: false,
+      restSpeedThreshold: 0.001,
+      restDisplacementThreshold: 0.001,
+    },
+    animationOutConfig: {
+      duration: 300,
+      easing: Easing.inOut(Easing.ease),
+    }
   }
 
   constructor(props) {
@@ -114,20 +128,8 @@ export default class Collapsible extends Component {
   }
 
   _transitionToHeight(height) {
-    const config = {
-      toValue: height,
-      damping: 13,
-      mass: 1,
-      stiffness: 101.6,
-      overshootClamping: false,
-      restSpeedThreshold: 0.001,
-      restDisplacementThreshold: 0.001,
-    }
-    const config2 = {
-      duration: 300,
-      toValue: 0,
-      easing: Easing.inOut(Easing.ease),
-    }
+    const config = { toValue: height, ...this.props.animationInConfig };
+    const config2 = { toValue: 0, ...this.props.animationOutConfig };
 
     this._animIn = spring(this.state.height, config)
     this._animOut = timing(this.state.height, config2)
