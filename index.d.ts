@@ -59,7 +59,7 @@ export interface CollapsibleProps {
   /**
    * Duration of transition in milliseconds
    *
-   * @default 300
+   * @default 150
    */
   duration?: number;
 
@@ -86,6 +86,30 @@ export interface CollapsibleProps {
    * Function called when the animation finished
    */
   onAnimationEnd?: () => void;
+  /**
+   * Config object for the animation when view is expanded
+   *
+   * @default { easing: Easing.inOut(Easing.ease) }
+   */
+  animationExpandConfig?: any;
+  /**
+   * Config object for the animation when view is collapsed
+   *
+   * @default { easing: Easing.inOut(Easing.ease) }
+   */
+  animationCollapseConfig?: any;
+  /**
+   * Timing function for the animation when view is expanded
+   *
+   * @default Animation.timing
+   */
+  animationExpandFunction: any;
+  /**
+   * Timing function for the animation when view is collapsed
+   *
+   * @default Animation.timing
+   */
+  animationCollapseFunction: any;
 }
 
 export default class Collapsible extends React.Component<CollapsibleProps> {}

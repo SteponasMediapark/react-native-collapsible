@@ -18,8 +18,10 @@ export default class Collapsible extends Component {
     style: ViewPropTypes.style,
     onAnimationEnd: PropTypes.func,
     children: PropTypes.node,
-    animationInConfig: PropTypes.object,
-    animationOutConfig: PropTypes.object,
+    animationExpandConfig: PropTypes.object,
+    animationCollapseConfig: PropTypes.object,
+    animationExpandFunction: PropTypes.func,
+    animationCollapseFunction: PropTypes.func,
   }
 
   static defaultProps = {
@@ -27,21 +29,23 @@ export default class Collapsible extends Component {
     collapsed: true,
     collapsedHeight: 0,
     enablePointerEvents: false,
-    duration: 300,
+    duration: 150,
     easing: 'easeOutCubic',
     onAnimationEnd: () => null,
-    animationInConfig: {
-      damping: 13,
-      mass: 1,
-      stiffness: 101.6,
-      overshootClamping: false,
-      restSpeedThreshold: 0.001,
-      restDisplacementThreshold: 0.001,
-    },
-    animationOutConfig: {
-      duration: 300,
+    animationExpandConfig: {
+      // damping: 13,
+      // mass: 1,
+      // stiffness: 101.6,
+      // overshootClamping: false,
+      // restSpeedThreshold: 0.001,
+      // restDisplacementThreshold: 0.001,
       easing: Easing.inOut(Easing.ease),
-    }
+    },
+    animationCollapseConfig: {
+      easing: Easing.inOut(Easing.ease),
+    },
+    animationExpandFunction: timing,
+    animationCollapseFunction: timing
   }
 
   constructor(props) {
@@ -128,11 +132,11 @@ export default class Collapsible extends Component {
   }
 
   _transitionToHeight(height) {
-    const config = { toValue: height, ...this.props.animationInConfig };
-    const config2 = { toValue: 0, ...this.props.animationOutConfig };
+    const config = { toValue: height, duration: this.props.duration, ...this.props.animationExpandConfig };
+    const config2 = { toValue: 0, duration: this.props.duration, ...this.props.animationCollapseConfig,  };
 
-    this._animIn = spring(this.state.height, config)
-    this._animOut = timing(this.state.height, config2)
+    this._animIn = this.props.animationExpandFunction(this.state.height, config)
+    this._animOut = this.props.animationCollapseFunction(this.state.height, config2)
     this.setState({ animating: true })
     if (height === 0) {
       this._animOut.start(({ finished }) => {
