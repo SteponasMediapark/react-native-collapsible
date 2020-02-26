@@ -33,16 +33,10 @@ export default class Collapsible extends Component {
     easing: 'easeOutCubic',
     onAnimationEnd: () => null,
     animationExpandConfig: {
-      // damping: 13,
-      // mass: 1,
-      // stiffness: 101.6,
-      // overshootClamping: false,
-      // restSpeedThreshold: 0.001,
-      // restDisplacementThreshold: 0.001,
-      easing: Easing.inOut(Easing.ease),
+      easing: Easing.elastic(0.5),
     },
     animationCollapseConfig: {
-      easing: Easing.inOut(Easing.ease),
+      easing: Easing.elastic(0.5),
     },
     animationExpandFunction: timing,
     animationCollapseFunction: timing
@@ -91,7 +85,8 @@ export default class Collapsible extends Component {
         measuring: true,
       },
       () => {
-        requestAnimationFrame(() => {
+        // requestAnimationFrame(() => {
+        setTimeout(() => {
           if (!this.contentHandle) {
             this.setState(
               {
@@ -111,7 +106,8 @@ export default class Collapsible extends Component {
               )
             })
           }
-        })
+        }, 0)
+        // })
       },
     )
   }
@@ -137,6 +133,7 @@ export default class Collapsible extends Component {
 
     this._animIn = this.props.animationExpandFunction(this.state.height, config)
     this._animOut = this.props.animationCollapseFunction(this.state.height, config2)
+
     this.setState({ animating: true })
     if (height === 0) {
       this._animOut.start(({ finished }) => {
@@ -164,7 +161,8 @@ export default class Collapsible extends Component {
       return
     }
 
-    this.state.height.setValue(contentHeight)
+    // this.state.height.setValue(contentHeight)
+    this.setState({ height: new Animated.Value(contentHeight) });
     this.setState({ contentHeight })
   }
 
