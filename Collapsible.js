@@ -128,21 +128,21 @@ export default class Collapsible extends Component {
   }
 
   _transitionToHeight(height) {
-    const config = { toValue: height, duration: this.props.duration, ...this.props.animationExpandConfig };
-    const config2 = { toValue: 0, duration: this.props.duration, ...this.props.animationCollapseConfig,  };
+    const configExpand = { toValue: height, duration: this.props.duration, ...this.props.animationExpandConfig };
+    const configCollapse = { toValue: 0, duration: this.props.duration, ...this.props.animationCollapseConfig,  };
 
-    this._animIn = this.props.animationExpandFunction(this.state.height, config)
-    this._animOut = this.props.animationCollapseFunction(this.state.height, config2)
+    this._animExpand = this.props.animationExpandFunction(this.state.height, configExpand)
+    this._animCollapse = this.props.animationCollapseFunction(this.state.height, configCollapse)
 
     this.setState({ animating: true })
     if (height === 0) {
-      this._animOut.start(({ finished }) => {
+      this._animCollapse.start(({ finished }) => {
         if (finished) {
           this.setState({ animating: false })
         }
       })
     } else {
-      this._animIn.start(({ finished }) => {
+      this._animExpand.start(({ finished }) => {
         if (finished) {
           this.setState({ animating: false })
         }
