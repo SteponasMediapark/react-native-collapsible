@@ -103,13 +103,13 @@ export interface CollapsibleProps {
    *
    * @default Animation.timing
    */
-  animationExpandFunction: any;
+  animationExpandFunction?: any;
   /**
    * Timing function for the animation when view is collapsed
    *
    * @default Animation.timing
    */
-  animationCollapseFunction: any;
+  animationCollapseFunction?: any;
 }
 
 export default class Collapsible extends React.Component<CollapsibleProps> {}

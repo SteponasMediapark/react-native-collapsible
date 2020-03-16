@@ -2,7 +2,6 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import Animated, { Easing } from 'react-native-reanimated'
 import { ViewPropTypes } from './config'
-
 const { spring, timing } = Animated
 
 const ANIMATED_EASING_PREFIXES = ['easeInOut', 'easeOut', 'easeIn']
@@ -33,10 +32,10 @@ export default class Collapsible extends Component {
     easing: 'easeOutCubic',
     onAnimationEnd: () => null,
     animationExpandConfig: {
-      easing: Easing.elastic(0.5),
+      easing: Easing.linear,
     },
     animationCollapseConfig: {
-      easing: Easing.elastic(0.5),
+      easing: Easing.linear,
     },
     animationExpandFunction: timing,
     animationCollapseFunction: timing
