@@ -28,7 +28,7 @@ export default class Collapsible extends Component {
     collapsed: true,
     collapsedHeight: 0,
     enablePointerEvents: false,
-    duration: 150,
+    duration: 300,
     easing: 'easeOutCubic',
     onAnimationEnd: () => null,
     animationExpandConfig: {
